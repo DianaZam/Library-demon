@@ -4,12 +4,15 @@ import casshelper.library.Book;
 import com.datastax.driver.core.*;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class BooksTable extends Table{
+
+    /**
+     * РОБИТ
+     */
 
     public BooksTable(Session session) {
         super(session);
@@ -41,20 +44,27 @@ public class BooksTable extends Table{
     }
 
 
+
+
+
+
+
+    /**
+     *ВААААЩЕ НЕ ДОПИЛЕНО
+     */
     public void insertBook(Book book){
         Statement st = new SimpleStatement("INSERT INTO "+TABLE_NAME+
-                " (book_id, title, author)  VALUES ("+book.getBook_id()+", '"
-                +book.getTitle()+"', '"+book.getAuthor()+"');");
+                " (book_id, title, author, science_field, key_words, publication_year, edition,storage_id)  VALUES ("
+                +book.getBook_id()
+                +", '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getScience_field()+"', '"+book.getKey_words()
+                +"', "+book.getPublication_year()+", "+book.getEdition()+", "+ book.getStorage_id() +");");
         session.execute(st);
     }
-
     public void deleteBook(Book book){
     }
-
     public void updateBook(Book book){
 
     }
-
     public List<Book> selectBooks(){
         Select select = QueryBuilder.select("book_id", "title").from(TABLE_NAME);
        ResultSet rs = session.execute(select.toString());
@@ -67,8 +77,7 @@ public class BooksTable extends Table{
 
         return books;
     }
-
-    public List<Book> selectBooksWhereTitle(String where, String what){
+    public List<Book> selectBooksWhere(String where, String what){
         Select select = QueryBuilder.select("book_id", "title").from(TABLE_NAME);
         select.where(QueryBuilder.like(where, "%"+what+"%"));
         ResultSet rs = session.execute(select.toString());

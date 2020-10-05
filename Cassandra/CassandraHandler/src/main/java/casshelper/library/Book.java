@@ -1,9 +1,5 @@
 package casshelper.library;
 
-import java.util.List;
-
-
-
 public class Book {
     private int book_id;
     private String title;
