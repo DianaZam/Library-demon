@@ -1,10 +1,8 @@
 package casshelper.library;
 
-import java.util.List;
+import java.io.Serializable;
 
-
-
-public class Book {
+public class Book implements Serializable {
     private int book_id;
     private String title;
     private String author;
@@ -27,6 +25,12 @@ public class Book {
         this.publication_year=publication_year;
         this.edition=edition;
         this.storage_id=storage_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Book: "+book_id+", "+title+", "+author+", "+science_field+", "+key_words+", "+publication_year
+                +", "+edition+", "+storage_id;
     }
 
     public int getBook_id() {

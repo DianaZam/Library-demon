@@ -2,9 +2,6 @@ package casshelper.repositories;
 
 import casshelper.library.Book;
 import com.datastax.driver.core.*;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.datastax.driver.core.querybuilder.Select;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +19,7 @@ public class BooksTable extends Table{
      * LIKE works for author, title, key_words and science_field columns
      *
      */
+    @Override
     public void createTable() {
         StringBuilder sb1 = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(TABLE_NAME).append("(")
                 .append("book_id int PRIMARY KEY, ").append("title text,").append("author text,")
@@ -40,46 +38,67 @@ public class BooksTable extends Table{
         session.execute(query);
     }
 
-
-    public void insertBook(Book book){
+    public void insert(Book book){
         Statement st = new SimpleStatement("INSERT INTO "+TABLE_NAME+
-                " (book_id, title, author)  VALUES ("+book.getBook_id()+", '"
-                +book.getTitle()+"', '"+book.getAuthor()+"');");
+                " (book_id, title, author, science_field, key_words, publication_year, edition,storage_id)  VALUES ("
+                +book.getBook_id()
+                +", '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getScience_field()+"', '"+book.getKey_words()
+                +"', "+book.getPublication_year()+", "+book.getEdition()+", "+ book.getStorage_id() +");");
         session.execute(st);
     }
 
-    public void deleteBook(Book book){
+    public void delete(Book book){
+        Statement st = new SimpleStatement("DELETE FROM " + TABLE_NAME +
+                " WHERE book_id = " + book.getBook_id() + ";");
+        session.execute(st);
     }
 
-    public void updateBook(Book book){
-
-    }
-
-    public List<Book> selectBooks(){
-        Select select = QueryBuilder.select("book_id", "title").from(TABLE_NAME);
-       ResultSet rs = session.execute(select.toString());
+    public List<Book> selectBookFromID(int book_id){
+        Statement st = new SimpleStatement("select * from "+TABLE_NAME+
+                "  where book_id = "+ book_id+";");
+        ResultSet rs = session.execute(st);
         List<Book> books = new ArrayList<Book>();
 
         for (Row r : rs) {
-            Book s = new Book(r.getInt("book_id"), r.getString("title"), null, null, null, 0, 0, 0);
+            Book s = new Book(r.getInt("book_id"), r.getString("title"),
+                    r.getString("author"), r.getString("science_field"), r.getString("key_words"),
+                    r.getInt("publication_year"), r.getInt("edition"), r.getInt("storage_id"));
             books.add(s);
         }
 
         return books;
     }
 
-    public List<Book> selectBooksWhereTitle(String where, String what){
-        Select select = QueryBuilder.select("book_id", "title").from(TABLE_NAME);
-        select.where(QueryBuilder.like(where, "%"+what+"%"));
-        ResultSet rs = session.execute(select.toString());
+    public List<Book> selectAll(){
+        Statement st = new SimpleStatement("select * from "+TABLE_NAME+";");
+        ResultSet rs = session.execute(st);
         List<Book> books = new ArrayList<Book>();
-
         for (Row r : rs) {
-            Book s = new Book(r.getInt("book_id"), r.getString("title"), null, null, null, 0, 0, 0);
+            Book s = new Book(r.getInt("book_id"), r.getString("title"),
+                    r.getString("author"), r.getString("science_field"), r.getString("key_words"),
+                    r.getInt("publication_year"), r.getInt("edition"), r.getInt("storage_id"));
             books.add(s);
         }
-
         return books;
     }
+
+    public List<Book> selectBooksLike(String where, String what){
+        Statement st = new SimpleStatement("select * from "+TABLE_NAME+
+                "  where "+ where +" like '%"+ what+"%';");
+        ResultSet rs = session.execute(st);
+        List<Book> books = new ArrayList<Book>();
+        for (Row r : rs) {
+            Book s = new Book(r.getInt("book_id"), r.getString("title"),
+                    r.getString("author"), r.getString("science_field"), r.getString("key_words"),
+                    r.getInt("publication_year"), r.getInt("edition"), r.getInt("storage_id"));
+            books.add(s);
+        }
+        return books;
+    }
+
+    public List<Book> selectBooksLikeTitle(String what){return selectBooksLike("title", what);}
+    public List<Book> selectBooksLikeAuthor(String what){return selectBooksLike("author", what);}
+    public List<Book> selectBooksLikeField(String what){return selectBooksLike("science_field", what);}
+    public List<Book> selectBooksLikeWords(String what){return selectBooksLike("key_words", what);}
 
 }
