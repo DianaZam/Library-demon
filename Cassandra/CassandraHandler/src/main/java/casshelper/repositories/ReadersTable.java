@@ -1,7 +1,7 @@
 package casshelper.repositories;
 
 
-import casshelper.library.Reader;
+import library.Reader;
 import com.datastax.driver.core.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class ReadersTable extends Table{
         return readers;
     }
 
-    public List<Reader> selectReadersLikeFO(String first, String last){
+    public List<Reader> selectReadersLikeFI(String first, String last){
         Statement st = new SimpleStatement("select * from "+TABLE_NAME+
                 "  where first_name like '%"+ first+"%' and"+
                 "  last_name like '%"+ last+"%' allow filtering;");

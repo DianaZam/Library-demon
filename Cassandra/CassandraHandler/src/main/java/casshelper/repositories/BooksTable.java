@@ -1,6 +1,6 @@
 package casshelper.repositories;
 
-import casshelper.library.Book;
+import library.Book;
 import com.datastax.driver.core.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,9 +96,24 @@ public class BooksTable extends Table{
         return books;
     }
 
+    public List<Book> selectBooksLikeDouble(String where1, String what1,String where2, String what2){
+        Statement st = new SimpleStatement("select * from "+TABLE_NAME+
+                "  where "+ where1 +" like '%"+ what1+"%' and "+ where2 +" like '%"+ what2+"%' allow filtering;");
+        ResultSet rs = session.execute(st);
+        List<Book> books = new ArrayList<Book>();
+        for (Row r : rs) {
+            Book s = new Book(r.getInt("book_id"), r.getString("title"),
+                    r.getString("author"), r.getString("science_field"), r.getString("key_words"),
+                    r.getInt("publication_year"), r.getInt("edition"), r.getInt("storage_id"));
+            books.add(s);
+        }
+        return books;
+    }
+
     public List<Book> selectBooksLikeTitle(String what){return selectBooksLike("title", what);}
     public List<Book> selectBooksLikeAuthor(String what){return selectBooksLike("author", what);}
     public List<Book> selectBooksLikeField(String what){return selectBooksLike("science_field", what);}
     public List<Book> selectBooksLikeWords(String what){return selectBooksLike("key_words", what);}
-
+    public List<Book> selectBooksLikeTitleAuthor(String what1, String what2){return selectBooksLikeDouble("title", what1, "author", what2);}
+    public List<Book> selectBooksLikeFieldWords(String what1, String what2){return selectBooksLikeDouble("science_field", what1, "key_words", what2);}
 }

@@ -1,8 +1,8 @@
 package casshelper.repositories;
 
-import casshelper.library.Book;
-import casshelper.library.BookStatus;
-import casshelper.library.Reader;
+import library.Book;
+import library.BookStatus;
+import library.Reader;
 import com.datastax.driver.core.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +51,9 @@ public class BookStatusTable extends Table {
         return bookStatuses;
     }
 
-    public List<BookStatus> selectFromKey(Book book, boolean in_stock) {
+    public List<BookStatus> selectFromKey(int book_id,boolean in_stock) {
         Statement st = new SimpleStatement("SELECT * FROM " + TABLE_NAME + " where book_id="
-                + book.getBook_id() + " and in_stock = " + in_stock + ";");
+                + book_id + " and in_stock = " + in_stock + ";");
         ResultSet rs = session.execute(st);
         List<BookStatus> bookStatuses = new ArrayList<BookStatus>();
 
@@ -65,9 +65,9 @@ public class BookStatusTable extends Table {
         return bookStatuses;
     }
 
-    public List<BookStatus> selectFromBook(Book book) {
+    public List<BookStatus> selectFromKeyLoc(int book_id, boolean in_stock, int location_id) {
         Statement st = new SimpleStatement("SELECT * FROM " + TABLE_NAME + " where book_id="
-                + book.getBook_id() + " allow filtering;");
+                + book_id + " and in_stock = " + in_stock + " and location_id ="+ location_id+" allow filtering;");
         ResultSet rs = session.execute(st);
         List<BookStatus> bookStatuses = new ArrayList<BookStatus>();
 
@@ -79,9 +79,23 @@ public class BookStatusTable extends Table {
         return bookStatuses;
     }
 
-    public List<BookStatus> selectFromReader(Reader reader) {
+    public List<BookStatus> selectFromBookID(int book_id) {
+        Statement st = new SimpleStatement("SELECT * FROM " + TABLE_NAME + " where book_id="
+                + book_id + " allow filtering;");
+        ResultSet rs = session.execute(st);
+        List<BookStatus> bookStatuses = new ArrayList<BookStatus>();
+
+        for (Row r : rs) {
+            BookStatus s = new BookStatus(r.getInt("book_id"), r.getBool("in_stock"),
+                    r.getTimestamp("status_id"), r.getInt("location_id"));
+            bookStatuses.add(s);
+        }
+        return bookStatuses;
+    }
+
+    public List<BookStatus> selectFromLocation(int location_id) {
         Statement st = new SimpleStatement("SELECT * FROM " + TABLE_NAME + " where location_id="
-                + reader.getCard_id() + " allow filtering;");
+                + location_id + " allow filtering;");
         ResultSet rs = session.execute(st);
         List<BookStatus> bookStatuses = new ArrayList<BookStatus>();
 
@@ -101,10 +115,10 @@ public class BookStatusTable extends Table {
         insert(bookStatus);
     }
 
-    public void changeStatusFalse(BookStatus bookStatus, Reader reader) {
+    public void changeStatusFalse(BookStatus bookStatus, int reader) {
         delete(bookStatus);
         bookStatus.setIn_stock(false);
-        bookStatus.setLocation_id(reader.getCard_id());
+        bookStatus.setLocation_id(reader);
         insert(bookStatus);
     }
 }
