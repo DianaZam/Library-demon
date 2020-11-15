@@ -6,8 +6,8 @@ import java.util.Date;
 
 
 public class ReaderR implements Serializable {
-    private int card_id;
-    private int passport;
+    private int card_id=0;
+    private int passport=0;
     private String first_name;
     private String middle_name;
     private String last_name;
