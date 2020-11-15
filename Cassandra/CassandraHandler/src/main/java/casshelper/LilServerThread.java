@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LilServerThread extends Thread{
@@ -63,6 +64,7 @@ public class LilServerThread extends Thread{
                 while (!lilserver.isClosed()) {
                     System.out.println("Сервер готов читать из сокета");
                     String method = lsois.readUTF();
+
                     switch(method){
                         case "GetBooks": {
                             GetBooks getBooks=(GetBooks) lsois.readObject();
@@ -104,29 +106,41 @@ public class LilServerThread extends Thread{
                         }
                         case "GetReader": {
                             AGReader getReader = (AGReader) lsois.readObject();
+                            List<Reader> readers;
                            Reader reader = null;
 
                             if(getReader.getCard_id()!=0){
-                                reader = rt.selectReadersWhereID(getReader.getCard_id()).get(0);
+                                readers = rt.selectReadersWhereID(getReader.getCard_id());
+                                if (readers.size()>0)  reader = readers.get(0);
                             }else if(getReader.getPassport()!=0){
-                                reader = rt.selectReadersWherePassport(getReader.getPassport()).get(0);
+                                readers = rt.selectReadersWherePassport(getReader.getPassport());
+                                if (readers.size()>0)  reader = readers.get(0);
                             }else if(getReader.getFirst_name()!=null && getReader.getMiddle_name()!=null && getReader.getLast_name()!=null){
-                                reader = rt.selectReadersLikeFIO(getReader.getFirst_name(), getReader.getMiddle_name(), getReader.getLast_name()).get(0);
+                                readers =  rt.selectReadersLikeFIO(getReader.getFirst_name(), getReader.getMiddle_name(), getReader.getLast_name());
+                                if (readers.size()>0)  reader = readers.get(0);
                             }else if(getReader.getFirst_name()!=null && getReader.getLast_name()!=null){
-                                reader = rt.selectReadersLikeFI(getReader.getFirst_name(), getReader.getLast_name()).get(0);
+                                readers =  rt.selectReadersLikeFI(getReader.getFirst_name(), getReader.getLast_name());
+                                if (readers.size()>0)  reader = readers.get(0);
                             }
+                            ReaderR readerR = new ReaderR();
+                            if (reader!=null){
+                                readerR = new ReaderR(reader.getCard_id(), reader.getPassport(), reader.getFirst_name(), reader.getMiddle_name(),
+                                        reader.getLast_name(), reader.getBirthday());
+                                lsoos.writeObject(readerR);
+                                lsoos.flush();
 
-                            System.out.println(reader.getBirthday().getMillisSinceEpoch());
+                                List<BookStatus> bookStatusList = bst.selectFromLocation(reader.getCard_id());
+                                lsoos.writeObject(bookStatusList);
+                                lsoos.flush();
+                            }
+                            else{
+                                lsoos.writeObject(readerR);
+                                lsoos.flush();
 
-                            ReaderR readerR = new ReaderR(reader.getCard_id(), reader.getPassport(), reader.getFirst_name(), reader.getMiddle_name(),
-                                    reader.getLast_name(), reader.getBirthday());
-
-                            lsoos.writeObject(readerR);
-                            lsoos.flush();
-
-                            List<BookStatus> bookStatusList = bst.selectFromLocation(reader.getCard_id());
-                            lsoos.writeObject(bookStatusList);
-                            lsoos.flush();
+                                List<BookStatus> bookStatusList = new ArrayList<BookStatus>();
+                                lsoos.writeObject(bookStatusList);
+                                lsoos.flush();
+                            }
 
                             break;
                         }
