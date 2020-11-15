@@ -2,26 +2,25 @@ package library;
 
 import com.datastax.driver.core.LocalDate;
 import java.io.Serializable;
-import java.util.Date;
 
 
-public class ReaderR implements Serializable {
-    private int card_id=0;
-    private int passport=0;
+public class Reader implements Serializable {
+    private int card_id;
+    private int passport;
     private String first_name;
     private String middle_name;
     private String last_name;
-    private Date birthday;
+    private LocalDate birthday;
 
-    public  ReaderR(){}
+    public  Reader(){}
 
-    public  ReaderR(int card_id, int passport, String first_name, String middle_name, String last_name, LocalDate birthday){
+    public  Reader(int card_id, int passport, String first_name, String middle_name, String last_name, LocalDate birthday){
         this.card_id=card_id;
         this.passport=passport;
         this.first_name=first_name;
         this.middle_name=middle_name;
         this.last_name=last_name;
-        this.birthday.setTime(birthday.getMillisSinceEpoch());
+        this.birthday=birthday;
     }
 
     @Override
@@ -70,11 +69,11 @@ public class ReaderR implements Serializable {
         this.last_name = last_name;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 }

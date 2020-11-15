@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-//НЕ ХВАТАЕТ АВТОРИЗАЦИИ
 
 
 public class DeskSender {
@@ -40,13 +39,10 @@ public class DeskSender {
 
 
         try {
-            /*client = new ServerSocket(portClient);
+            client = new ServerSocket(portClient);
             toClient = client.accept();
-            // канал записи в сокет к клиенту
-            ObjectOutputStream coos = new ObjectOutputStream(toClient.getOutputStream());
-            // канал чтения из сокета от клиенты
-            ObjectInputStream cois = new ObjectInputStream(toClient.getInputStream());
-            System.out.println("Клиент подключился к сокету");*/
+
+            System.out.println("Клиент подключился к сокету");
 
             toServer = new Socket(host, portMain);
             // сокет для записи данных на сервер
@@ -55,18 +51,21 @@ public class DeskSender {
             ObjectInputStream sois = new ObjectInputStream(toServer.getInputStream());
             System.out.println("Главный сервер подключился к сокету");
 
-            while (//!toClient.isClosed() &&
+            while (!toClient.isClosed() &&
                     !toServer.isClosed()) {
 
-
+                // канал записи в сокет к клиенту
+                ObjectOutputStream coos = new ObjectOutputStream(toClient.getOutputStream());
+                // канал чтения из сокета от клиенты
+                ObjectInputStream cois = new ObjectInputStream(toClient.getInputStream());
 
                 // Читаю запрос
-                jsonString=null;
-                // jsonString=cois.readUTF();
+                //jsonString=null;
+                jsonString=cois.readUTF();
 
 
                 //Чисто проверка
-                Scanner scanner = new Scanner(System.in);
+                /*Scanner scanner = new Scanner(System.in);
                 int var;
                 switch (var = scanner.nextInt()){
                     case 1: {
@@ -90,7 +89,7 @@ public class DeskSender {
                         break;
                     }
                 }
-
+*/
                 //
 
                 System.out.println(jsonString);
@@ -195,27 +194,35 @@ public class DeskSender {
                         ReaderR reader = (ReaderR) sois.readObject();
                         List<BookStatus> bookStatusList = (List<BookStatus>) sois.readObject();
 
-                        JSONArray arrr = new JSONArray();
-                        for (int i=0; i<bookStatusList.size(); i++){
-                            JSONObject book = new JSONObject();
-                            book.put("book_id",bookStatusList.get(i).getBook_id());
-                            book.put("time",bookStatusList.get(i).getStatus_id().toString());
-                            arrr.add(book);
-                        }
-                        JSONObject data = new JSONObject();
-                        data.put("count", bookStatusList.size());
-                        data.put("books", arrr);
-                        JSONObject answerJSON = new JSONObject();
-                        answerJSON.put("status", 200);
-                        answerJSON.put("card_id", reader.getCard_id());
-                        answerJSON.put("passport", reader.getPassport());
-                        answerJSON.put("first_name", reader.getFirst_name());
-                        answerJSON.put("middle_name", reader.getMiddle_name());
-                        answerJSON.put("last_name", reader.getLast_name());
-                        answerJSON.put("birthday", reader.getBirthday().getDay()+"."+reader.getBirthday().getMonth()+"."+reader.getBirthday().getYear());
-                        answerJSON.put("data", data);
+                        if (reader.getCard_id()!=0) {
+                            JSONArray arrr = new JSONArray();
+                            for (int i = 0; i < bookStatusList.size(); i++) {
+                                JSONObject book = new JSONObject();
+                                book.put("book_id", bookStatusList.get(i).getBook_id());
+                                book.put("time", bookStatusList.get(i).getStatus_id().toString());
+                                arrr.add(book);
+                            }
+                            JSONObject data = new JSONObject();
+                            data.put("count", bookStatusList.size());
+                            data.put("books", arrr);
+                            JSONObject answerJSON = new JSONObject();
+                            answerJSON.put("status", 200);
+                            answerJSON.put("card_id", reader.getCard_id());
+                            answerJSON.put("passport", reader.getPassport());
+                            answerJSON.put("first_name", reader.getFirst_name());
+                            answerJSON.put("middle_name", reader.getMiddle_name());
+                            answerJSON.put("last_name", reader.getLast_name());
+                            answerJSON.put("birthday", reader.getBirthday().getDay() + "." + reader.getBirthday().getMonth() + "." + reader.getBirthday().getYear());
+                            answerJSON.put("data", data);
 
-                        jsonString=answerJSON.toJSONString();
+                            jsonString = answerJSON.toJSONString();
+                        }
+                        else{
+                            JSONObject answerJSON = new JSONObject();
+                            answerJSON.put("status", 200);
+                            answerJSON.put("result", false);
+                            jsonString = answerJSON.toJSONString();
+                        }
                         break;
                     }
                     case "IsBookInStock": {
@@ -304,8 +311,12 @@ public class DeskSender {
                 System.out.println(jsonString);
 
                 //Отправляю json
-               // coos.writeUTF(jsonString);
-                //coos.flush();
+               coos.writeUTF(jsonString);
+                coos.flush();
+
+
+
+                toClient = client.accept();
               }
 
             } catch (IOException e) {

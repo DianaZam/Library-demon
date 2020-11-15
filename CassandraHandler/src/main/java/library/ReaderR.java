@@ -21,7 +21,7 @@ public class ReaderR implements Serializable {
         this.first_name=first_name;
         this.middle_name=middle_name;
         this.last_name=last_name;
-        this.birthday.setTime(birthday.getMillisSinceEpoch());
+        this.birthday = new Date(birthday.getYear(),birthday.getMonth(), birthday.getDay());
     }
 
     @Override

@@ -209,27 +209,35 @@ public class SiteSender {
                         ReaderR reader = (ReaderR) sois.readObject();
                         List<BookStatus> bookStatusList = (List<BookStatus>) sois.readObject();
 
-                        JSONArray arrr = new JSONArray();
-                        for (int i=0; i<bookStatusList.size(); i++){
-                            JSONObject book = new JSONObject();
-                            book.put("book_id",bookStatusList.get(i).getBook_id());
-                            book.put("time",bookStatusList.get(i).getStatus_id().toString());
-                            arrr.add(book);
-                        }
-                        JSONObject data = new JSONObject();
-                        data.put("count", bookStatusList.size());
-                        data.put("books", arrr);
-                        JSONObject answerJSON = new JSONObject();
-                        answerJSON.put("status", 200);
-                        answerJSON.put("card_id", reader.getCard_id());
-                        answerJSON.put("passport", reader.getPassport());
-                        answerJSON.put("first_name", reader.getFirst_name());
-                        answerJSON.put("middle_name", reader.getMiddle_name());
-                        answerJSON.put("last_name", reader.getLast_name());
-                        answerJSON.put("birthday", reader.getBirthday().getDay()+"."+reader.getBirthday().getMonth()+"."+reader.getBirthday().getYear());
-                        answerJSON.put("data", data);
+                        if (reader.getCard_id()!=0) {
+                            JSONArray arrr = new JSONArray();
+                            for (int i = 0; i < bookStatusList.size(); i++) {
+                                JSONObject book = new JSONObject();
+                                book.put("book_id", bookStatusList.get(i).getBook_id());
+                                book.put("time", bookStatusList.get(i).getStatus_id().toString());
+                                arrr.add(book);
+                            }
+                            JSONObject data = new JSONObject();
+                            data.put("count", bookStatusList.size());
+                            data.put("books", arrr);
+                            JSONObject answerJSON = new JSONObject();
+                            answerJSON.put("status", 200);
+                            answerJSON.put("card_id", reader.getCard_id());
+                            answerJSON.put("passport", reader.getPassport());
+                            answerJSON.put("first_name", reader.getFirst_name());
+                            answerJSON.put("middle_name", reader.getMiddle_name());
+                            answerJSON.put("last_name", reader.getLast_name());
+                            answerJSON.put("birthday", reader.getBirthday().getDay() + "." + reader.getBirthday().getMonth() + "." + reader.getBirthday().getYear());
+                            answerJSON.put("data", data);
 
-                        jsonString=answerJSON.toJSONString();
+                            jsonString = answerJSON.toJSONString();
+                        }
+                        else{
+                            JSONObject answerJSON = new JSONObject();
+                            answerJSON.put("status", 200);
+                            answerJSON.put("result", false);
+                            jsonString = answerJSON.toJSONString();
+                        }
                         break;
                     }
                     case "IsBookInStock": {
