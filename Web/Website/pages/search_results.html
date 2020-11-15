@@ -1,0 +1,28 @@
+<table class="table table-bordered table-striped">
+<tr>
+    <th class="text-center">Book ID</th>
+    <th class="text-center">Title</th>
+    <th class="text-center">Author</th>
+    <th class="text-center">Science field</th>
+
+    <th class="text-center">Keywords</th>
+    <th class="text-center">Publication year</th>
+    <th class="text-center">Edition</th>
+    <th class="text-center">Storage</th>
+
+</tr>
+{{#books}}
+<tr>
+    <th class="text-center">{{ book_id }}</th>
+    <td>{{ title }}</td>
+    <td>{{ author }}</td>
+    <td>{{ science_field }}</td>
+
+    <td>{{ key_words_str }}</td>
+    <td class="text-center">{{ publication_year }}</td>
+    <td class="text-center">{{ edition }}</td>
+    <td class="text-center">{{ storage_id }}</td>
+
+</tr>
+{{/books}}
+</table>

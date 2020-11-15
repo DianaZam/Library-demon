@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Библиотека - Проверить наличие книги</title>
+        <style>
+            div {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Проверить наличие книги</h1>
+        
+        <form action="/is_book_in_results" method="POST">
+            <div>
+                <label>book_id</label>
+                <br />
+                <input type="text" name="book_id" />
+            </div>
+            <button type="submit">Получить</button>
+        </form>
+
+    </body>
+</html>

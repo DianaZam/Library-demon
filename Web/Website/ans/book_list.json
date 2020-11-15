@@ -1,0 +1,22 @@
+[
+    {
+        "book_id": 12345678,
+        "publication_year": 2009,
+        "edition": 11,
+        "storage_id": "F_24_15",
+        "title": "Title",
+        "author": "Author",
+        "science_field": "Programming",
+        "key_words": ["C++", "java"]
+    },
+    {
+        "book_id": 12375979,
+        "publication_year": 2018,
+        "edition": 3,
+        "storage_id": "F_24_16",
+        "title": "Title",
+        "author": "Author",
+        "science_field": "Programming",
+        "key_words": ["Python"]
+    }
+]

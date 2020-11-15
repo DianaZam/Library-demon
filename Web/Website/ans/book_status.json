@@ -1,0 +1,22 @@
+{
+	"status": 200,
+	"data":
+		{
+		"statuses":[
+				{
+
+					"book_id":5,
+					"in_stock": true,
+					"status_id":"строка с временем, хуй знает, как она выглядит",
+					"location_id": 12374
+				},
+				{
+					"book_id":132,
+					"in_stock": false,
+					"status_id":"строка с временем, хуй знает, как она выглядит",
+					"location_id": 174
+				}
+			],
+		"count":2
+		}
+}

@@ -1,0 +1,24 @@
+{
+	"status": 200,
+	"card_id": 12345678, 
+	"passport": 4514873612,
+	"first_name": "Ivan",
+	"middle_name": "Ivanovch",
+	"last_name": "Ivanov",
+	"birthday": "24.01.2002",
+	"data":
+		{
+		"books":[
+				{
+
+					"book_id":5,
+					"time":"2020-12-15 11:21:59"
+				},
+				{
+					"book_id":1235,
+					"time":"2020-12-19 13:27:04"
+				}
+			],
+		"count":2
+		}
+}

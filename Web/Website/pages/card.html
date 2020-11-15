@@ -1,0 +1,41 @@
+<table class="table table-bordered table-striped">
+<tr>
+    <th>Карточка</th>
+    <td>{{ reader.card_id }}</td>
+</tr>
+<tr>
+    <th>Паспорт</th>
+    <td>{{ reader.passport }}</td>
+</tr>
+<tr>
+    <th>Имя</th>
+    <td>{{ reader.first_name }}</td>
+</tr>
+<tr>
+    <th>Отчество</th>
+    <td>{{ reader.middle_name }}</td>
+</tr>
+<tr>
+    <th>Фамилия</th>
+    <td>{{ reader.last_name }}</td>
+</tr>
+<tr>
+    <th>Дата рождения</th>
+    <td>{{ reader.birthday }}</td>
+</tr>
+</table>
+
+<h2>Книги</h2>
+<table class="table table-bordered table-striped">
+<tr>
+    <th class="text-center">№ книги</th>
+    <th class="text-center">Время</th>
+</tr>
+
+{{#books}}
+<tr>
+    <td>{{ book_id }} </td>
+    <td>{{ time }}</td>
+</tr>
+{{/books}}
+</table>

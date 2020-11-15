@@ -1,0 +1,21 @@
+{
+  "name": "booklib",
+  "version": "1.0.0",
+  "description": "Just a project",
+  "main": "client.js",
+  "dependencies": {
+    "@types/mustache": "^4.0.1",
+    "mustache": "^4.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "books",
+    "library"
+  ],
+  "author": "",
+  "license": "ISC"
+}
