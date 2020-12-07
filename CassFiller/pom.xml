@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>zamilatskaya</groupId>
+    <artifactId>CassFiller</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
+    </properties>
+
+
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>Starter</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.7</source>
+                <target>1.7</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass>Starter</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ideauidesigner-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>javac2</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <fork>true</fork>
+                    <debug>true</debug>
+                    <failOnError>true</failOnError>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+            <dependency>
+                <groupId>com.googlecode.json-simple</groupId>
+                <artifactId>json-simple</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>javac2</artifactId>
+            <version>6.0.5</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/ideauidesigner-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>ideauidesigner-maven-plugin</artifactId>
+            <version>1.0-beta-1</version>
+        </dependency>
+
+
+
+    </dependencies>
+
+
+</project>
