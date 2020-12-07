@@ -1,31 +1,27 @@
-package library;
+package requests;
 
 import java.io.Serializable;
 
 
-public class Reader implements Serializable {
-    private int card_id;
+public class AGCReader implements Serializable {
+    private String method;
+    private int card_id = 0;
     private String passport;
     private String first_name;
     private String middle_name;
     private String last_name;
     private String birthday;
 
-    public  Reader(){}
+    public AGCReader(){}
 
-    public  Reader(int card_id, String passport, String first_name, String middle_name, String last_name, String birthday){
+    public AGCReader(int card_id, String passport, String first_name, String middle_name, String last_name, String birthday, String method){
         this.card_id=card_id;
         this.passport=passport;
         this.first_name=first_name;
         this.middle_name=middle_name;
         this.last_name=last_name;
         this.birthday=birthday;
-    }
-
-    @Override
-    public String toString() {
-        return "Reader: "+card_id+", "+passport+", "+first_name+", "+middle_name+", "
-                +last_name+", "+birthday.toString();
+        this.method=method;
     }
 
     public int getCard_id() {
@@ -75,4 +71,13 @@ public class Reader implements Serializable {
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
 }

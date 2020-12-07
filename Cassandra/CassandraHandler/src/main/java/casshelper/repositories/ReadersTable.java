@@ -22,8 +22,8 @@ public class ReadersTable extends Table{
     @Override
     public void createTable() {
         StringBuilder sb1 = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(TABLE_NAME).append("(")
-                .append("card_id int PRIMARY KEY, ").append("passport int,").append("first_name text,")
-                .append("middle_name text,").append("last_name text,").append("birthday date").append(");");
+                .append("card_id int PRIMARY KEY, ").append("passport text,").append("first_name text,")
+                .append("middle_name text,").append("last_name text,").append("birthday text").append(");");
 
         String query = sb1.toString();
         session.execute(query);
@@ -38,9 +38,17 @@ public class ReadersTable extends Table{
     public void insert(Reader reader){
         Statement st = new SimpleStatement("INSERT INTO "+TABLE_NAME+
                 " (card_id, passport, first_name, middle_name, last_name, birthday)  VALUES ("
-                +reader.getCard_id() +", "+reader.getPassport()+", '"+reader.getFirst_name()
+                +reader.getCard_id() +", '"+reader.getPassport()+"', '"+reader.getFirst_name()
                 +"', '"+reader.getMiddle_name()+"', '"+reader.getLast_name()
-                +"', '"+reader.getBirthday() .toString()+"');");
+                +"', '"+reader.getBirthday()+"');");
+        session.execute(st);
+    }
+
+    public void update(Reader reader){
+        Statement st = new SimpleStatement("UPDATE "+TABLE_NAME+
+                " SET passport='" +reader.getPassport()+"', first_name='"+reader.getFirst_name()+
+                "', middle_name='"+reader.getMiddle_name()+"', last_name='"+reader.getLast_name()+
+                "', birthday='"+reader.getBirthday()+"' where card_id="+reader.getCard_id()+";");
         session.execute(st);
     }
 
@@ -55,8 +63,8 @@ public class ReadersTable extends Table{
         ResultSet rs = session.execute(st);
         List<Reader> readers = new ArrayList<Reader>();
         for (Row r : rs) {
-            Reader s = new Reader(r.getInt("card_id"), r.getInt("passport"),  r.getString("first_name"),
-                    r.getString("middle_name"), r.getString("last_name"), r.getDate("birthday"));
+            Reader s = new Reader(r.getInt("card_id"), r.getString("passport"),  r.getString("first_name"),
+                    r.getString("middle_name"), r.getString("last_name"), r.getString("birthday"));
             readers.add(s);
         }
         return readers;
@@ -69,8 +77,8 @@ public class ReadersTable extends Table{
         ResultSet rs = session.execute(st);
         List<Reader> readers = new ArrayList<Reader>();
         for (Row r : rs) {
-            Reader s = new Reader(r.getInt("card_id"), r.getInt("passport"),  r.getString("first_name"),
-                    r.getString("middle_name"), r.getString("last_name"), r.getDate("birthday"));
+            Reader s = new Reader(r.getInt("card_id"), r.getString("passport"),  r.getString("first_name"),
+                    r.getString("middle_name"), r.getString("last_name"), r.getString("birthday"));
             readers.add(s);
         }
         return readers;
@@ -83,8 +91,8 @@ public class ReadersTable extends Table{
         ResultSet rs = session.execute(st);
         List<Reader> readers = new ArrayList<Reader>();
         for (Row r : rs) {
-            Reader s = new Reader(r.getInt("card_id"), r.getInt("passport"),  r.getString("first_name"),
-                    r.getString("middle_name"), r.getString("last_name"), r.getDate("birthday"));
+            Reader s = new Reader(r.getInt("card_id"), r.getString("passport"),  r.getString("first_name"),
+                    r.getString("middle_name"), r.getString("last_name"), r.getString("birthday"));
             readers.add(s);
         }
         return readers;
@@ -96,21 +104,21 @@ public class ReadersTable extends Table{
         ResultSet rs = session.execute(st);
         List<Reader> readers = new ArrayList<Reader>();
         for (Row r : rs) {
-            Reader s = new Reader(r.getInt("card_id"), r.getInt("passport"),  r.getString("first_name"),
-                    r.getString("middle_name"), r.getString("last_name"), r.getDate("birthday"));
+            Reader s = new Reader(r.getInt("card_id"), r.getString("passport"),  r.getString("first_name"),
+                    r.getString("middle_name"), r.getString("last_name"), r.getString("birthday"));
             readers.add(s);
         }
         return readers;
     }
 
-    public List<Reader> selectReadersWherePassport(int passport){
+    public List<Reader> selectReadersWherePassport(String passport){
         Statement st = new SimpleStatement("select * from "+TABLE_NAME+
-                " where passport="+passport+" allow filtering;");
+                " where passport='"+passport+"' allow filtering;");
         ResultSet rs = session.execute(st);
         List<Reader> readers = new ArrayList<Reader>();
         for (Row r : rs) {
-            Reader s = new Reader(r.getInt("card_id"), r.getInt("passport"),  r.getString("first_name"),
-                    r.getString("middle_name"), r.getString("last_name"), r.getDate("birthday"));
+            Reader s = new Reader(r.getInt("card_id"), r.getString("passport"),  r.getString("first_name"),
+                    r.getString("middle_name"), r.getString("last_name"), r.getString("birthday"));
             readers.add(s);
         }
         return readers;

@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class CGBookStatus  implements Serializable {
     private String method;
-    private int book_id;
-    private int location_id;
+    private int book_id= 0;
+    private int location_id =0;
 
     public CGBookStatus() {
     }

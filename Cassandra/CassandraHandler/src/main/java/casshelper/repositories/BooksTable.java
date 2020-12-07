@@ -47,6 +47,14 @@ public class BooksTable extends Table{
         session.execute(st);
     }
 
+    public void update(Book book){
+        Statement st = new SimpleStatement("UPDATE  "+TABLE_NAME+
+                " SET title = '"+book.getTitle()+"', author = '"+book.getAuthor()+"', science_field ='"+book.getScience_field()+
+                "',  key_words='"+book.getKey_words()+"', publication_year ="+book.getPublication_year()+", edition ="+book.getEdition()+
+                ", storage_id = "+book.getStorage_id()+"  WHERE book_id=" +book.getBook_id()+";");
+        session.execute(st);
+    }
+
     public void delete(Book book){
         Statement st = new SimpleStatement("DELETE FROM " + TABLE_NAME +
                 " WHERE book_id = " + book.getBook_id() + ";");

@@ -8,17 +8,19 @@ public class GetBooks implements Serializable {
     private String author;
     private String science_field;
     private String key_words;
+    private int book_id = 0;
 
     public GetBooks() {
     }
 
     public GetBooks(String title, String author, String science_field,
-                String key_words, String method){
+                    String key_words, String method, int book_id){
         this.title=title;
         this.author=author;
         this.science_field=science_field;
         this.key_words=key_words;
         this.method=method;
+        this.book_id=book_id;
     }
 
     public String getTitle() {
@@ -54,5 +56,13 @@ public class GetBooks implements Serializable {
     }
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
+    }
+
+    public int getBook_id() {
+        return book_id;
     }
 }

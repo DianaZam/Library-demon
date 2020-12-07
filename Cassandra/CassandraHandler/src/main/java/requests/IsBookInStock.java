@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class IsBookInStock implements Serializable {
     private String method;
-    private int book_id;
+    private int book_id =0;
 
     public IsBookInStock() {
     }

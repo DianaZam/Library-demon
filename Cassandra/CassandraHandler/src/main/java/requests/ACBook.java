@@ -1,0 +1,105 @@
+package requests;
+
+import java.io.Serializable;
+
+public class ACBook implements Serializable {
+    private String method;
+    private int book_id = 0;
+    private String title;
+    private String author;
+    private String science_field;
+    private String key_words;
+    private int publication_year =0;
+    private int edition =0;
+    private int storage_id =0;
+    private int count = 0;
+
+    public ACBook() {
+    }
+
+    public ACBook(int book_id, String title, String author, String science_field,
+                  String key_words, int publication_year, int edition, int storage_id, int count, String method){
+        this.book_id=book_id;
+        this.title=title;
+        this.author=author;
+        this.science_field=science_field;
+        this.key_words=key_words;
+        this.count=count;
+        this.publication_year=publication_year;
+        this.edition=edition;
+        this.storage_id=storage_id;
+        this.method=method;
+    }
+
+    public int getBook_id() {
+        return book_id;
+    }
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getScience_field() {
+        return science_field;
+    }
+    public void setScience_field(String science_field) {
+        this.science_field = science_field;
+    }
+
+    public String getKey_words() {
+        return key_words;
+    }
+    public void setKey_words(String key_words) {
+        this.key_words = key_words;
+    }
+
+    public int getPublication_year() {
+        return publication_year;
+    }
+    public void setPublication_year(int publication_year) {
+        this.publication_year = publication_year;
+    }
+
+    public int getEdition() {
+        return edition;
+    }
+    public void setEdition(int edition) {
+        this.edition = edition;
+    }
+
+    public int getStorage_id() {
+        return storage_id;
+    }
+    public void setStorage_id(int storage_id) {
+        this.storage_id = storage_id;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
