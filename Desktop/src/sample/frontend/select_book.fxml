@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SelectBookController">
+   <children>
+      <Button layoutX="14.0" layoutY="193.0" mnemonicParsing="false" onAction="#select" prefHeight="38.0" fx:id="b_select" prefWidth="134.0" text="Взять книгу" />
+      <Button layoutX="166.0" layoutY="193.0" mnemonicParsing="false" onAction="#cancel" prefHeight="38.0" prefWidth="134.0" text="Отмена" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Автор:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="36.0" prefHeight="17.0" prefWidth="157.0" text="Название:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="58.0" prefHeight="17.0" prefWidth="157.0" text="Тэги:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="80.0" prefHeight="17.0" prefWidth="157.0" text="Направление науки:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="102.0" prefHeight="17.0" prefWidth="157.0" text="Издание:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="124.0" prefHeight="17.0" prefWidth="157.0" text="Год публикации:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="146.0" prefHeight="17.0" prefWidth="157.0" text="ID книги:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="-28.0" layoutY="168.0" prefHeight="17.0" prefWidth="157.0" text="В наличии:" textAlignment="RIGHT" />
+      <Label fx:id="l_author" contentDisplay="RIGHT" layoutX="143.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_title" contentDisplay="RIGHT" layoutX="143.0" layoutY="36.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_tags" contentDisplay="RIGHT" layoutX="143.0" layoutY="58.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_science_field" contentDisplay="RIGHT" layoutX="143.0" layoutY="80.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_edition" contentDisplay="RIGHT" layoutX="143.0" layoutY="102.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_publication_year" contentDisplay="RIGHT" layoutX="143.0" layoutY="124.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_book_id" contentDisplay="RIGHT" layoutX="143.0" layoutY="146.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+      <Label fx:id="l_stockpile" contentDisplay="RIGHT" layoutX="143.0" layoutY="168.0" prefHeight="17.0" prefWidth="157.0" textAlignment="RIGHT" />
+   </children>
+</AnchorPane>

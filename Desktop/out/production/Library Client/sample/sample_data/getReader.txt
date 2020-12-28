@@ -1,0 +1,24 @@
+{
+	"status": 200,
+	"card_id": 12345678,
+	"passport": 4514873612,
+	"first_name": "Ivan",
+	"middle_name": "Ivanovch",
+	"last_name": "Ivanov",
+	"birthday": "24.01.2002",
+	"data":
+		{
+		"books":[
+				{
+
+					"book_id":5,
+					"time":"строка с временем, хуй знает, как она выглядит",
+				},
+				{
+					"book_id":1235,
+					"time":"строка с временем, хуй знает, как она выглядит",
+				}
+			],
+		"count":2
+		}
+}

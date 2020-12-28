@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SearchBooksController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="106.0" text="Назад" />
+      <ListView fx:id="book_list" layoutX="245.0" layoutY="52.0" prefHeight="165.0" prefWidth="269.0" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="16.0" layoutY="55.0" text="Автор:" />
+      <Label layoutX="245.0" layoutY="31.0" text="Результаты поиска:" />
+      <Button layoutX="15.0" layoutY="219.0" mnemonicParsing="false" onAction="#searchBooks" prefHeight="39.0" prefWidth="209.0" text="Поиск" />
+      <TextField fx:id="t_author" layoutX="76.0" layoutY="51.0" onKeyTyped="#onInput" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="80.0" prefHeight="39.0" prefWidth="56.0" text="Название книги:" wrapText="true" />
+      <TextField fx:id="t_title" layoutX="76.0" layoutY="87.0" onKeyTyped="#onInput" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="113.0" prefHeight="39.0" prefWidth="56.0" text="Область науки:" wrapText="true" />
+      <TextField fx:id="t_science_field" layoutX="76.0" layoutY="120.0" onKeyTyped="#onInput" />
+      <Label alignment="CENTER_RIGHT" layoutX="15.0" layoutY="159.0" text="Теги:" />
+      <TextField fx:id="t_tags" layoutX="76.0" layoutY="155.0" onKeyTyped="#onInput" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="191.0" text="ID книги:" />
+      <TextField fx:id="t_book_id" layoutX="76.0" layoutY="187.0" onKeyTyped="#onInput" prefHeight="25.0" prefWidth="149.0" />
+      <Button layoutX="245.0" layoutY="219.0" mnemonicParsing="false" onAction="#selectBook" prefHeight="39.0" prefWidth="269.0" text="Выбрать книгу" />
+      <Label fx:id="error_field" layoutX="138.0" layoutY="18.0" prefHeight="17.0" prefWidth="373.0" textFill="RED">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
