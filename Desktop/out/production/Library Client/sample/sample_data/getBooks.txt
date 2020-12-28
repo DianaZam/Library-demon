@@ -1,0 +1,29 @@
+{
+	"data":
+		{
+		"books":[
+				{
+					"publication_year":2004,
+					"author":"Orange O.O.",
+					"storage_id":9174,
+					"key_words":"Ubuntu, OS, Informatics, Linux",
+					"edition":7,
+					"book_id":5,
+					"title":"Ubuntu",
+					"science_field":"Informatics, OS"
+				},
+				{
+					"publication_year":1997,
+					"author":"White W.W., Green G.G.",
+					"storage_id":9621,
+					"key_words":"Biology",
+					"edition":8,
+					"book_id":4,
+					"title":"Biology pour dummies",
+					"science_field":"Biology"
+				}
+			],
+		"count":2
+		},
+	"status":200
+}
