@@ -1,12 +1,8 @@
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.Reader;
@@ -21,7 +17,7 @@ public class FindReaderDialog extends JDialog {
     private JTextField firstNameField;
     private JTextField lastNameField;
     private JTextField cardIdField;
-    private JList<String> readerList;
+    private JList <String> readerList;
     private JTextField middleNameField;
     private JTextField passportField;
     private JSONArray readers;
@@ -40,14 +36,13 @@ public class FindReaderDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     onFind();
-                } catch (IOException ex) {
-                }
+                } catch (IOException ex) { }
             }
         });
 
         readerList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                JList readerList = (JList) evt.getSource();
+                JList readerList = (JList)evt.getSource();
                 if (evt.getClickCount() == 2) {
                     int index = readerList.locationToIndex(evt.getPoint());
                     reader = (JSONObject) readers.get(index);
@@ -58,8 +53,7 @@ public class FindReaderDialog extends JDialog {
                     dialog.contentPane.setVisible(true);
                     try {
                         dialog.onFind();
-                    } catch (IOException e) {
-                    }
+                    } catch (IOException e) { }
                 }
             }
         });
@@ -83,19 +77,20 @@ public class FindReaderDialog extends JDialog {
 
     private void onFind() throws IOException {
         boolean error = false;
-        int card_id = 0;
+        int card_id=0;
         String errorMessage = "";
         try {
-            if (!passportField.getText().isEmpty()) {
+            if(!passportField.getText().isEmpty()){
                 long passport = Long.valueOf(passportField.getText());
-                if (passportField.getText().length() != 10) {
-                    error = true;
-                    errorMessage += "Пасспорт не указан или указан неверно .\n";
+                if(passportField.getText().length()!=10){
+                    error=true;
+                    errorMessage+="Пасспорт не указан или указан неверно .\n";
                 }
             }
-        } catch (NumberFormatException e) {
-            error = true;
-            errorMessage += "Формат пасспорта неверен.\n";
+        }
+        catch (NumberFormatException e){
+            error=true;
+            errorMessage+="Формат пасспорта неверен.\n";
         }
         try {
             if (!cardIdField.getText().isEmpty()) {
@@ -105,36 +100,37 @@ public class FindReaderDialog extends JDialog {
                     errorMessage += "ID должен быть больше 0!\n";
                 }
             }
-        } catch (NumberFormatException e) {
-            if (!cardIdField.getText().isEmpty()) {
+        }
+        catch (NumberFormatException e){
+            if(!cardIdField.getText().isEmpty()) {
                 errorMessage += "ID должно быть числом!\n";
                 error = true;
             }
         }
 
 
-        if (firstNameField.getText().isEmpty() && lastNameField.getText().isEmpty() && middleNameField.getText().isEmpty() &&
-                passportField.getText().isEmpty() && cardIdField.getText().isEmpty()) {
-            error = true;
-            errorMessage += "Заполните хотя бы 1 поле!\n";
-        } else if ((firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty()) &&
-                passportField.getText().isEmpty() && cardIdField.getText().isEmpty()) {
-            error = true;
-            errorMessage += "Заполните (id) или (паспорт) или (ФИО и/или ФИ)!\n";
+        if (firstNameField.getText().isEmpty() && lastNameField.getText().isEmpty() && middleNameField.getText().isEmpty()&&
+                passportField.getText().isEmpty()  && cardIdField.getText().isEmpty() ){
+            error=true;
+            errorMessage+="Заполните хотя бы 1 поле!\n";
+        }else if ((firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty()) &&
+                passportField.getText().isEmpty()  && cardIdField.getText().isEmpty() ){
+            error=true;
+            errorMessage+="Заполните (id) или (паспорт) или (ФИО и/или ФИ)!\n";
         }
         if (error) resultPlane.setText(errorMessage);
-        else {
+        else{
 
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("method", "GetReaders");
             requestJSON.put("card_id", card_id);
-            if (passportField.getText().isEmpty()) requestJSON.put("passport", null);
+            if (passportField.getText().isEmpty())requestJSON.put("passport", null);
             else requestJSON.put("passport", passportField.getText());
-            if (firstNameField.getText().isEmpty()) requestJSON.put("first_name", null);
+            if (firstNameField.getText().isEmpty())requestJSON.put("first_name", null);
             else requestJSON.put("first_name", firstNameField.getText());
-            if (middleNameField.getText().isEmpty()) requestJSON.put("middle_name", null);
+            if (middleNameField.getText().isEmpty())requestJSON.put("middle_name", null);
             else requestJSON.put("middle_name", middleNameField.getText());
-            if (lastNameField.getText().isEmpty()) requestJSON.put("last_name", null);
+            if (lastNameField.getText().isEmpty())requestJSON.put("last_name", null);
             else requestJSON.put("last_name", lastNameField.getText());
 
 
@@ -143,10 +139,12 @@ public class FindReaderDialog extends JDialog {
 
 
             DefaultListModel dlm = new DefaultListModel();
-            for (String r : jsonArrayToString(readers)) {
+            for (String r: jsonArrayToString(readers)){
                 dlm.addElement(r);
             }
             readerList.setModel(dlm);
+
+
 
 
             resultPlane.setText("Для изменения данных читателя дважды щёлкните по нужной записи.\n" +
@@ -160,16 +158,16 @@ public class FindReaderDialog extends JDialog {
         dispose();
     }
 
-    private String[] jsonArrayToString(JSONArray arr) {
+    private String[] jsonArrayToString(JSONArray arr){
         String[] strings = new String[arr.size()];
-        for (int i = 0; i < arr.size(); i++) {
+        for(int i=0; i< arr.size(); i++){
             JSONObject reader = (JSONObject) arr.get(i);
-            strings[i] = ((Long) reader.get("card_id") + ", " + (String) reader.get("last_name")
-                    + " " + (String) reader.get("first_name") + " " + (String) reader.get("middle_name")
-                    + ", " + (String) reader.get("birthday"));
+            strings[i]=((Long) reader.get("card_id")+", "+(String) reader.get("last_name")
+                    +" "+(String) reader.get("first_name")+" "+(String) reader.get("middle_name")
+                    +", "+(String) reader.get("birthday"));
         }
 
-        return strings;
+        return  strings;
     }
 
     public void setDialog(FindReaderDialog dialog) {
@@ -179,5 +177,4 @@ public class FindReaderDialog extends JDialog {
     public FindReaderDialog getDialog() {
         return dialog;
     }
-
 }
