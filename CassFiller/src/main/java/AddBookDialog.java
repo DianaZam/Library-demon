@@ -1,10 +1,7 @@
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -33,8 +30,7 @@ public class AddBookDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     onAdd();
-                } catch (IOException ex) {
-                }
+                } catch (IOException ex) { }
             }
         });
 
@@ -62,10 +58,11 @@ public class AddBookDialog extends JDialog {
         int storage_id = 0;
         int count = 0;
         try {
-            if (!yearField.getText().isEmpty())
-                publication_year = Integer.valueOf(yearField.getText());
-        } catch (NumberFormatException e) {
-            errorMessage += "Год должен быть числом!\n";
+            if(!yearField.getText().isEmpty())
+            publication_year = Integer.valueOf(yearField.getText());
+        }
+        catch (NumberFormatException e){
+            errorMessage+="Год должен быть числом!\n";
             error = true;
         }
         try {
@@ -76,55 +73,58 @@ public class AddBookDialog extends JDialog {
                     error = true;
                 }
             }
-        } catch (NumberFormatException e) {
-            errorMessage += "Издание должно быть числом!\n";
+        }
+        catch (NumberFormatException e){
+            errorMessage+="Издание должно быть числом!\n";
             error = true;
         }
         try {
-            if (!storageField.getText().isEmpty()) {
+            if(!storageField.getText().isEmpty()) {
                 storage_id = Integer.valueOf(storageField.getText());
                 if (storage_id <= 0) {
                     errorMessage += "Код места должен быть числом больше 0!\n";
                     error = true;
                 }
             }
-        } catch (NumberFormatException e) {
-            errorMessage += "Код места  должен быть числом!\n";
+        }
+        catch (NumberFormatException e){
+            errorMessage+="Код места  должен быть числом!\n";
             error = true;
         }
         try {
-            if (!countField.getText().isEmpty()) {
+            if(!countField.getText().isEmpty()) {
                 count = Integer.valueOf(countField.getText());
                 if (count <= 0) {
                     error = true;
                     errorMessage += "Количество должно быть числом больше 0!\n";
                 }
             }
-        } catch (NumberFormatException e) {
-            errorMessage += "Количество должно быть числом больше 0!\n";
+        }
+        catch (NumberFormatException e){
+            errorMessage+="Количество должно быть числом больше 0!\n";
             error = true;
         }
 
-        if (titleField.getText().isEmpty() || authorField.getText().isEmpty() || scienceField.getText().isEmpty() || keyWordsField.getText().isEmpty()
-                || yearField.getText().isEmpty() || editionField.getText().isEmpty() || storageField.getText().isEmpty() || countField.getText().isEmpty()) {
-            error = true;
-            errorMessage += "Все поля должны быть заполнены!\n";
+        if (titleField.getText().isEmpty()|| authorField.getText().isEmpty()|| scienceField.getText().isEmpty()|| keyWordsField.getText().isEmpty()
+                || yearField.getText().isEmpty() || editionField.getText().isEmpty()|| storageField.getText().isEmpty()|| countField.getText().isEmpty()){
+            error=true;
+            errorMessage+="Все поля должны быть заполнены!\n";
         }
         if (error) resultPlane.setText(errorMessage);
-        else {
+        else{
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("method", "AddBook");
             requestJSON.put("title", titleField.getText());
-            requestJSON.put("author", authorField.getText());
-            requestJSON.put("key_words", keyWordsField.getText());
-            requestJSON.put("science_field", scienceField.getText());
-            requestJSON.put("edition", edition);
-            requestJSON.put("publication_year", publication_year);
-            requestJSON.put("storage_id", storage_id);
-            requestJSON.put("count", count);
+            requestJSON.put("author",authorField.getText());
+            requestJSON.put("key_words",keyWordsField.getText());
+            requestJSON.put("science_field",scienceField.getText());
+            requestJSON.put("edition",edition);
+            requestJSON.put("publication_year",publication_year);
+            requestJSON.put("storage_id",storage_id);
+            requestJSON.put("count",count);
             answerJSON = (JSONObject) JSONValue.parse(RequestSender.sendToServer(requestJSON.toJSONString()));
 
-            resultPlane.setText("ID новой книги: " + (Long) answerJSON.get("book_id"));
+            resultPlane.setText("ID новой книги: "+ (Long) answerJSON.get("book_id"));
         }
 
     }

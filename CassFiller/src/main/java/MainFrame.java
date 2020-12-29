@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -18,12 +17,11 @@ public class MainFrame extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonInfo);
 
-        buttonInfo.addActionListener(new ActionListener() {
+       buttonInfo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     onInfo();
-                } catch (IOException ex) {
-                }
+                } catch (IOException ex) {}
             }
         });
 
@@ -74,7 +72,7 @@ public class MainFrame extends JDialog {
     private void onInfo() throws IOException {
         mainFrame.contentPane.setVisible(false);
         InfoDialog info = new InfoDialog();
-        // info.setLocation();
+       // info.setLocation();
         info.pack();
         info.setVisible(true);
         mainFrame.contentPane.setVisible(true);

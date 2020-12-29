@@ -1,12 +1,8 @@
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -30,20 +26,19 @@ public class FindBookDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(findBookButton);
 
-        resultPlane.setText("Поиск ведётся по id, или (названию и/или автору), или (научной области и/или ключевым словам). Если не ввести ни один параметр - в списке выведутся все книги в БД.");
+        resultPlane.setText("Поиск ведётся по id, или (названию и/или автору), или (научной области и/или ключевым словам). Если не заполнить ни одно поле - выведутся все книги.");
 
         findBookButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     onFind();
-                } catch (IOException ex) {
-                }
+                } catch (IOException ex) { }
             }
         });
 
         bookList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                JList bookList = (JList) evt.getSource();
+                JList bookList = (JList)evt.getSource();
                 if (evt.getClickCount() == 2) {
                     int index = bookList.locationToIndex(evt.getPoint());
                     book = (JSONObject) books.get(index);
@@ -54,8 +49,7 @@ public class FindBookDialog extends JDialog {
                     dialog.contentPane.setVisible(true);
                     try {
                         dialog.onFind();
-                    } catch (IOException e) {
-                    }
+                    } catch (IOException e) { }
                 }
             }
         });
@@ -82,31 +76,35 @@ public class FindBookDialog extends JDialog {
         String errorMessage = "";
         int book_id = 0;
         try {
-            if (!bookIdField.getText().isEmpty()) {
+            if(!bookIdField.getText().isEmpty()) {
                 book_id = Integer.valueOf(bookIdField.getText());
                 if (book_id <= 0) {
                     errorMessage += "ID должно быть числом больше 0!\n";
                     error = true;
                 }
             }
-        } catch (NumberFormatException e) {
-            errorMessage += "ID должно быть числом!\n";
-            error = true;
+        }
+        catch (NumberFormatException e){
+                errorMessage += "ID должно быть числом!\n";
+                error = true;
         }
 
-
+       /* if (titleField.getText().isEmpty() && authorField.getText().isEmpty() && bookIdField.getText().isEmpty()&& scienceField.getText().isEmpty()&&keyWordsField.getText().isEmpty()){
+            error=true;
+            errorMessage+="Заполните хотя бы 1 параметр поиска.\n";
+        }*/
         if (error) resultPlane.setText(errorMessage);
-        else {
+        else{
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("method", "GetBooks");
             requestJSON.put("book_id", book_id);
-            if (titleField.getText().isEmpty()) requestJSON.put("title", null);
+            if (titleField.getText().isEmpty())requestJSON.put("title", null);
             else requestJSON.put("title", titleField.getText());
-            if (authorField.getText().isEmpty()) requestJSON.put("author", null);
+            if (authorField.getText().isEmpty())requestJSON.put("author", null);
             else requestJSON.put("author", authorField.getText());
-            if (keyWordsField.getText().isEmpty()) requestJSON.put("key_words", null);
+            if (keyWordsField.getText().isEmpty())requestJSON.put("key_words", null);
             else requestJSON.put("key_words", keyWordsField.getText());
-            if (scienceField.getText().isEmpty()) requestJSON.put("science_field", null);
+            if (scienceField.getText().isEmpty())requestJSON.put("science_field", null);
             else requestJSON.put("science_field", scienceField.getText());
 
             JSONObject answerJSON = (JSONObject) JSONValue.parse(RequestSender.sendToServer(requestJSON.toJSONString()));
@@ -114,10 +112,12 @@ public class FindBookDialog extends JDialog {
 
 
             DefaultListModel dlm = new DefaultListModel();
-            for (String r : jsonArrayToString(books)) {
+            for (String r: jsonArrayToString(books)){
                 dlm.addElement(r);
             }
             bookList.setModel(dlm);
+
+
 
 
             resultPlane.setText("Для изменения данных читателя дважды щёлкните по нужной записи.\n" +
@@ -131,16 +131,16 @@ public class FindBookDialog extends JDialog {
         dispose();
     }
 
-    private String[] jsonArrayToString(JSONArray arr) {
+    private String[] jsonArrayToString(JSONArray arr){
         String[] strings = new String[arr.size()];
-        for (int i = 0; i < arr.size(); i++) {
+        for(int i=0; i< arr.size(); i++){
             JSONObject reader = (JSONObject) arr.get(i);
-            strings[i] = ((Long) reader.get("book_id") + ", \"" + (String) reader.get("title")
-                    + "\", " + (String) reader.get("author") + ", издание " + (Long) reader.get("edition")
-                    + ", полка " + (Long) reader.get("storage_id"));
+            strings[i]=((Long) reader.get("book_id")+", \""+(String) reader.get("title")
+                    +"\", "+(String) reader.get("author")+", издание "+(Long) reader.get("edition")
+                    +", полка "+(Long) reader.get("storage_id"));
         }
 
-        return strings;
+        return  strings;
     }
 
     public void setDialog(FindBookDialog dialog) {

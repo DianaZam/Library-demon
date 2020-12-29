@@ -1,10 +1,7 @@
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -22,7 +19,7 @@ public class ChangeReaderDialog extends JDialog {
 
 
     public ChangeReaderDialog(JSONObject readerJSON) {
-        this.readerJSON = readerJSON;
+        this.readerJSON=readerJSON;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(changeReaderButton);
@@ -37,8 +34,7 @@ public class ChangeReaderDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     onChange();
-                } catch (IOException ex) {
-                }
+                } catch (IOException ex) { }
             }
         });
 
@@ -66,63 +62,65 @@ public class ChangeReaderDialog extends JDialog {
         int month;
         int year;
         try {
-            if (!passportField.getText().isEmpty()) {
+            if(!passportField.getText().isEmpty()) {
                 long passport = Long.valueOf(passportField.getText());
                 if (passportField.getText().length() != 10) {
                     error = true;
                     errorMessage += "Пасспорт не указан или указан неверно .\n";
                 }
             }
-        } catch (NumberFormatException e) {
-            error = true;
-            errorMessage += "Формат пасспорта неверен.\n";
+        }
+        catch (NumberFormatException e){
+            error=true;
+            errorMessage+="Формат пасспорта неверен.\n";
         }
         try {
-            if (!birthdayField.getText().isEmpty()) {
-                day = Integer.valueOf(birthdayField.getText().substring(0, 2));
-                if (day < 1 || day > 31) {
-                    error = true;
-                    errorMessage += "День указан некорректно.\n";
+            if(!birthdayField.getText().isEmpty()){
+                day = Integer.valueOf(birthdayField.getText().substring(0,2));
+                if (day<1 || day>31 ){
+                    error=true;
+                    errorMessage+="День указан некорректно.\n";
                 }
-                month = Integer.valueOf(birthdayField.getText().substring(3, 5));
-                if (month < 1 || month > 12) {
-                    error = true;
-                    errorMessage += "Месяц указан некорректно.\n";
+                month = Integer.valueOf(birthdayField.getText().substring(3,5));
+                if (month<1 || month>12 ){
+                    error=true;
+                    errorMessage+="Месяц указан некорректно.\n";
                 }
                 year = Integer.valueOf(birthdayField.getText().substring(6));
-                if (year < 0 || year > 2100) {
-                    error = true;
-                    errorMessage += "Год указан некорректно.\n";
+                if (year<0 || year>2100 ){
+                    error=true;
+                    errorMessage+="Год указан некорректно.\n";
                 }
-                if (!birthdayField.getText().substring(2, 3).equals(".") || !birthdayField.getText().substring(5, 6).equals(".")) {
-                    error = true;
-                    errorMessage += "Разделителями должны быть точки.\n";
+                if (!birthdayField.getText().substring(2,3).equals(".")||!birthdayField.getText().substring(5,6).equals(".")){
+                    error=true;
+                    errorMessage+="Разделителями должны быть точки.\n";
                 }
             }
-        } catch (NumberFormatException e) {
-            errorMessage += "Дата некорректна.\n";
+        }
+        catch (NumberFormatException e){
+            errorMessage+="Дата некорректна.\n";
             error = true;
         }
 
-        if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || middleNameField.getText().isEmpty() ||
-                passportField.getText().isEmpty() || birthdayField.getText().isEmpty()) {
-            error = true;
-            errorMessage += "Все поля должны быть заполнены!\n";
+        if (firstNameField.getText().isEmpty()|| lastNameField.getText().isEmpty()|| middleNameField.getText().isEmpty()||
+                passportField.getText().isEmpty()  || birthdayField.getText().isEmpty() ){
+            error=true;
+            errorMessage+="Все поля должны быть заполнены!\n";
         }
         if (error) resultPlane.setText(errorMessage);
-        else {
+        else{
             JSONObject requestJSON = new JSONObject();
             requestJSON.put("method", "ChangeReader");
             requestJSON.put("card_id", (Long) readerJSON.get("card_id"));
             requestJSON.put("passport", passportField.getText());
-            requestJSON.put("first_name", firstNameField.getText());
-            requestJSON.put("middle_name", middleNameField.getText());
-            requestJSON.put("last_name", lastNameField.getText());
-            requestJSON.put("birthday", birthdayField.getText());
+            requestJSON.put("first_name",firstNameField.getText());
+            requestJSON.put("middle_name",middleNameField.getText());
+            requestJSON.put("last_name",lastNameField.getText());
+            requestJSON.put("birthday",birthdayField.getText());
 
             answerJSON = (JSONObject) JSONValue.parse(RequestSender.sendToServer(requestJSON.toJSONString()));
 
-            resultPlane.setText("Читатель " + (Long) readerJSON.get("card_id") + " изменён.");
+            resultPlane.setText("Читатель "+ (Long) readerJSON.get("card_id")+" изменён.");
         }
 
     }
