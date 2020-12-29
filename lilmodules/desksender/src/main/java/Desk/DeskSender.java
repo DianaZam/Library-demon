@@ -250,7 +250,8 @@ public class DeskSender {
                     }
                     case "IsBookInStock": {
                         IsBookInStock isBookInStock = new IsBookInStock();
-                        isBookInStock.setBook_id(Integer.valueOf((String) requestJSON.get("book_id")));
+                        Long book_idSt = (Long) requestJSON.get("book_id");
+                        if(book_idSt!=null) isBookInStock.setBook_id(book_idSt.intValue());
                         isBookInStock.setMethod((String) requestJSON.get("method"));
                         soos.writeObject(isBookInStock);
                         soos.flush();

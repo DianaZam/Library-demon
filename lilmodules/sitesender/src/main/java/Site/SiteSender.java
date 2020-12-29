@@ -219,7 +219,7 @@ public class SiteSender {
                         List<BookStatus> bookStatusList = (List<BookStatus>) sois.readObject();
 
                         //Создние json ответа
-                        if (reader.getCard_id()!=0) {
+                        if (reader.getCard_id()!=0&&(reader.getPassport().equals(getReader.getPassport())||getReader.getPassport()==null)) {
                             JSONArray arrr = new JSONArray();
                             for (int i = 0; i < bookStatusList.size(); i++) {
                                 JSONObject book = new JSONObject();
